@@ -9,6 +9,9 @@ import {
   CardColumns,
 } from "react-bootstrap";
 
+import { useMutation } from "@apollo/client";
+import { SAVE_BOOK } from "../utils/mutation";
+
 import Auth from "../utils/auth";
 import { saveBook, searchGoogleBooks } from "../utils/API";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
@@ -73,6 +76,9 @@ export default function SearchBooks() {
     }
 
     try {
+      console.log(token);
+      console.log(bookToSave);
+
       const response = await saveBook(bookToSave, token);
 
       if (!response.ok) {

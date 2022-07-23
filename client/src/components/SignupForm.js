@@ -51,6 +51,7 @@ export default function SignupForm() {
       // Auth.login(token);
     } catch (err) {
       console.error(err);
+      console.log(error)
       setShowAlert(true);
     }
 

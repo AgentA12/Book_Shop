@@ -9,9 +9,11 @@ const resolvers = {
 
     me: async (parent, args, context, info) => {
       if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id }).populate(
-          "Book"
-        );
+        const userData = await User.findOne(
+          { _id: context.user._id },
+          {}
+        ).populate("Book");
+
         return userData;
       }
 
@@ -38,8 +40,9 @@ const resolvers = {
     },
 
     addUser: async (parent, args, context, info) => {
-      console.log(args);
       const user = await User.create(args);
+
+      const allusers = await User.find({});
 
       if (!user) {
         new AuthenticationError("Something went wrong");
@@ -49,14 +52,14 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (parent, { _id, input }, context, info) => {
+    saveBook: async (parent, args, { user }, info) => {
       try {
         const updatedUser = await User.findOneAndUpdate(
-          { _id: _id },
-          { $addToSet: { savedBooks: input } },
+          { _id: user._id },
+          { $addToSet: { savedBooks: args } },
           { new: true, runValidators: true }
         );
-        console.log(updatedUser);
+
         return updatedUser;
       } catch (err) {
         console.log(err);
@@ -64,10 +67,10 @@ const resolvers = {
       }
     },
 
-    removeBook: async (parent, { _id, bookId }, context, info) => {
-      console.log(_id, bookId);
+    removeBook: async (parent, { bookId }, { user }, info) => {
+      console.log(bookId);
       const updatedUser = await User.findOneAndUpdate(
-        { _id: _id },
+        { _id: user._id },
         { $pull: { savedBooks: { bookId: bookId } } },
         { new: true }
       );
@@ -80,21 +83,3 @@ const resolvers = {
 };
 
 module.exports = resolvers;
-
-// mutation {
-//   saveBook(_id: "62d99bb47db1b14a00f90b51", input:{
-//     authors:["andrew", "harry"]
-//     description:"a great book"
-//     title:"the adventure"
-//     bookId: "sdfklj4834hsdg"
-//     image:"https://googleImages/356343gfj4j"
-//     link:"http://googlebooks.com?name=theAdventure"
-
-//   }){
-//       username
-//     _id
-//     savedBooks{
-//   bookId
-//     title}
-//     }
-//   }

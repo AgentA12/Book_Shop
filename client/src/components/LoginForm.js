@@ -29,12 +29,11 @@ export default function LoginForm() {
     }
 
     try {
-      console.log(userFormData);
       const { data } = await loginUser({
         variables: { ...userFormData },
       });
-      console.log(data);
-      Auth.login(data.token);
+
+      Auth.login(data.login.token);
       // const response = await loginUser(userFormData);
 
       // if (!response.ok) {
@@ -46,6 +45,7 @@ export default function LoginForm() {
       // Auth.login(token);
     } catch (err) {
       console.error(err);
+      console.log(error)
       setShowAlert(true);
     }
 

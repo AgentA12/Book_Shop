@@ -22,15 +22,6 @@ const typeDefs = gql`
     title: String
   }
 
-  input bookInput {
-    authors: [String]
-    description: String
-    title: String
-    bookId: String
-    image: String
-    link: String
-  }
-
   type Query {
     me: User
     user: [User]
@@ -52,3 +43,13 @@ const typeDefs = gql`
 `;
 
 module.exports = typeDefs;
+
+//why dont u work 
+// input bookInput {
+//   authors: [String]
+//   description: String
+//   title: String
+//   bookId: String
+//   image: String
+//   link: String
+// }

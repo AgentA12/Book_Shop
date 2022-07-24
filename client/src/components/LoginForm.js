@@ -34,18 +34,9 @@ export default function LoginForm() {
       });
 
       Auth.login(data.login.token);
-      // const response = await loginUser(userFormData);
-
-      // if (!response.ok) {
-      //   throw new Error("something went wrong!");
-      // }
-
-      // const { token, user } = await response.json();
-      // console.log(user);
-      // Auth.login(token);
+   
     } catch (err) {
       console.error(err);
-      console.log(error)
       setShowAlert(true);
     }
 
